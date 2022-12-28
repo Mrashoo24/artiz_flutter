@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,9 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar: AppBar(title: Text('News')),
       body: FutureBuilder<NewsModel>(
@@ -28,6 +33,7 @@ class _NewsScreenState extends State<NewsScreen> {
           return ListView.builder(
             itemCount: snapshot.requireData.results.length,
             itemBuilder: (context,index){
+
 
 
             Results articles =   snapshot.requireData.results[index];

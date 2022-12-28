@@ -19,6 +19,8 @@ class Event extends Equatable {
   String event_add;
   String event_contact;
   String prod_name;
+  String status;
+
 
   Event(
       {this.id,
@@ -26,7 +28,7 @@ class Event extends Equatable {
         this.date,
         this.time,
         this.eventName,
-        this.eventReq,this.event_add,this.event_contact,this.prod_name});
+        this.eventReq,this.event_add,this.event_contact,this.prod_name,this.status});
 
   Event.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -38,6 +40,8 @@ class Event extends Equatable {
     event_add = json['event_add'] ?? '';
     event_contact =json['event_contact'] ?? '';
     prod_name =json['prod_name'] ?? '';
+    status =json['status'] ?? 'Enquiry';
+
 
   }
 
@@ -59,7 +63,7 @@ class Event extends Equatable {
    date,
    time,
    eventName,
-   eventReq];
+   eventReq,status];
 
 }
 Future<List<Event>> _getEventsForDayOffline(DateTime day) async {

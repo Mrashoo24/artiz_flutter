@@ -6,6 +6,8 @@ class NewsModel {
 
   NewsModel({this.status, this.totalResults, this.results, this.nextPage});
 
+
+
   NewsModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     totalResults = json['totalResults'];
@@ -93,3 +95,4 @@ class Results {
     return data;
   }
 }
+

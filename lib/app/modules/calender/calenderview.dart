@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,6 +38,9 @@ class _TableEventsExampleState extends State<TableEventsExample> {
   String initialValue = 'Select Date';
   final _formKey = GlobalKey<FormState>();
 
+  String selectedStatus = 'Enquiry';
+
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +61,7 @@ class _TableEventsExampleState extends State<TableEventsExample> {
 
     http.Response response = await http.get(Uri.parse(
         'http://artiz.consciser.in/mrzulfapi/show_calender.php?pro_id=${user.id}'));
-    print('responseEvent =${jsonDecode(response.body)} ');
+    log('responseEvent =${jsonDecode(response.body)} ');
 
     List responseList = jsonDecode(response.body);
     List<Event> listOfEvents =
@@ -146,7 +150,47 @@ class _TableEventsExampleState extends State<TableEventsExample> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      buildTextFormField(_eventController, 'Event Name'),
+                      Align(alignment:Alignment.centerLeft,child: Text('Booking')),
+                      Row(
+                        children: [
+
+                          Row(
+                            children: [
+                              Radio(
+                                  value: 'Confirm', groupValue: selectedStatus, onChanged: (value){
+                                    setState(() {
+                                      selectedStatus = value;
+                                    });
+                                    setDialog(() {
+
+                                    });
+
+                              },activeColor: Colors.orange,),
+                              Text('Confirm')
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Radio(value: 'Enquiry', groupValue: selectedStatus, onChanged: (value){
+                                setState(() {
+                                  selectedStatus = value;
+                                });
+                                setDialog(() {
+
+                                });
+                              },activeColor: Colors.orange,),
+                              Text('Enquiry')
+                            ],
+                          ),
+
+                        ],
+                      ),
+
+                      buildTextFormField(_eventController, 'Name'),
+
+                      buildTextFormField(_customerName, 'Customer Name'),
+                      buildTextFormField(_customerNumber, 'Phone Number'),
                       InkWell(
                         onTap: () async {
                           var time = await showTimePicker(
@@ -177,10 +221,8 @@ class _TableEventsExampleState extends State<TableEventsExample> {
 
                         ),
                       ),
-                      buildTextFormField(_customerName, 'Event Customer Name'),
-                      buildTextFormField(_customerNumber, 'Customer Number'),
                       buildTextFormField(_customerAddress, 'Customer Address'),
-                      buildTextFormField(prod, 'Product Name'),
+                      buildTextFormField(prod, 'Description'),
 
                     ],
                   ),
@@ -197,11 +239,22 @@ class _TableEventsExampleState extends State<TableEventsExample> {
                     if (_formKey.currentState.validate()) {
                       User user = Get.find<AuthService>().user.value;
                       await http.get(Uri.parse(
-                          'http://artiz.consciser.in/mrzulfapi/add_calender.php?pro_id=${user.id}&event_req=${_customerName.text}&event_name=${_eventController.text}&time=${initialValue}&date=${DateFormat('yyyy/MM/dd').format(_selectedDay)}&event_add=${_customerAddress.text}&event_contact=${_customerNumber.text}&prod_name=${prod.text}'));
+                          'http://artiz.consciser.in/mrzulfapi/add_calender.php?pro_id=${user.id}&event_req=${_customerName.text}&event_name=${_eventController.text}&time=${initialValue}&date=${DateFormat('yyyy/MM/dd').format(_selectedDay)}&event_add=${_customerAddress.text}&event_contact=${_customerNumber.text}&prod_name=${prod.text}&status=$selectedStatus'));
 
                       Navigator.pop(context);
-                      _eventController.clear();
-                      setState(() {});
+
+
+
+                      setState(() {
+                        _formKey.currentState.reset();
+                        _eventController.clear();
+                        _customerName.clear();
+
+                        _customerAddress.clear();
+                        _customerNumber.clear();
+                        prod.clear();
+                        initialValue = 'Select Date';
+                      });
                     } else {
                     }
 
@@ -226,7 +279,6 @@ class _TableEventsExampleState extends State<TableEventsExample> {
           }
 
           _selectedEvents = snapshot.requireData ?? [];
-          print('selectedDay = ${_selectedDay} ${snapshot.requireData}');
 
           return Column(children: [
             TableCalendar<Event>(
@@ -248,13 +300,13 @@ class _TableEventsExampleState extends State<TableEventsExample> {
               ),
               onDaySelected: _onDaySelected,
               onRangeSelected: _onRangeSelected,
-              onFormatChanged: (format) {
-                if (_calendarFormat != format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                }
-              },
+              // onFormatChanged: (format) {
+              //   if (_calendarFormat != format) {
+              //     setState(() {
+              //       _calendarFormat = format;
+              //     });
+              //   }
+              // },
               onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
               },
@@ -304,22 +356,46 @@ class _TableEventsExampleState extends State<TableEventsExample> {
                     child: ListTile(
                       onTap: () => print('${_selectedEvents[index]}'),
                       title: Text('${_selectedEvents[index].eventName}'),
-                      subtitle:Text('Customer Name: ${_selectedEvents[index].eventReq}'),
+                      isThreeLine: true,
+                      subtitle:Column(
+                        children: [
+                          Text('Customer Name: ${_selectedEvents[index].eventReq}'),
+                          Text('Status: ${_selectedEvents[index].status}',style: TextStyle(color:_selectedEvents[index].status == 'Enquiry' ? Colors.green : Colors.red),),
+                        ],
+                      ),
                       trailing: InkWell(
                           onTap: () async {
 
-                            setState(() {
+                            // setState(() {
                               _eventController = TextEditingController(text:_selectedEvents[index].eventName);
                                   _customerName=TextEditingController(text:_selectedEvents[index].eventReq);
                                   _customerNumber=TextEditingController(text:_selectedEvents[index].event_contact);
                                   _customerAddress=TextEditingController(text:_selectedEvents[index].event_add);
                                   prod =TextEditingController(text:_selectedEvents[index].prod_name);
+
                                   initialValue =_selectedEvents[index].time;
-                            });
+                                  selectedStatus = _selectedEvents[index].status;
+                            // });
+
+                            log('selectedNumber1 =${_selectedEvents[index].toJson()} ');
 
                             showDialog(
                               context: context,
                               builder: (context) => StatefulBuilder(builder: (context, setDialog) {
+
+                                // setState(() {
+                                //   _eventController = TextEditingController(text:_selectedEvents[index].eventName);
+                                //   _customerName=TextEditingController(text:_selectedEvents[index].eventReq);
+                                //   _customerNumber=TextEditingController(text:_selectedEvents[index].event_contact);
+                                //   _customerAddress=TextEditingController(text:_selectedEvents[index].event_add);
+                                //   prod =TextEditingController(text:_selectedEvents[index].prod_name);
+                                //
+                                //   initialValue =_selectedEvents[index].time;
+                                //   selectedStatus = _selectedEvents[index].status;
+                                // });
+
+                                print('selectedNumber = ${_customerNumber.text} ${_selectedEvents[index].event_contact} ');
+
                                 return AlertDialog(
                                   title: Text("Edit Event"),
                                   content: Form(
@@ -327,7 +403,46 @@ class _TableEventsExampleState extends State<TableEventsExample> {
                                     child: SingleChildScrollView(
                                       child: Column(
                                         children: [
-                                          buildTextFormField(_eventController, 'Event Name'),
+                                          Align(alignment:Alignment.centerLeft,child: Text('Booking')),
+                                          Row(
+                                            children: [
+
+                                              Row(
+                                                children: [
+                                                  Radio(
+                                                    value: 'Confirm', groupValue: selectedStatus, onChanged: (value){
+                                                    setState(() {
+                                                      selectedStatus = value;
+                                                    });
+                                                    setDialog(() {
+
+                                                    });
+
+                                                  },activeColor: Colors.orange,),
+                                                  Text('Confirm')
+                                                ],
+                                              ),
+
+                                              Row(
+                                                children: [
+                                                  Radio(value: 'Enquiry', groupValue: selectedStatus, onChanged: (value){
+                                                    setState(() {
+                                                      selectedStatus = value;
+                                                    });
+                                                    setDialog(() {
+
+                                                    });
+                                                  },activeColor: Colors.orange,),
+                                                  Text('Enquiry')
+                                                ],
+                                              ),
+
+                                            ],
+                                          ),
+                                          buildTextFormField(_eventController, 'Name'),
+
+                                          buildTextFormField(_customerName, 'Customer Name'),
+                                          buildTextFormField(_customerNumber, 'Phone Number'),
                                           InkWell(
                                             onTap: () async {
                                               var time = await showTimePicker(
@@ -358,10 +473,8 @@ class _TableEventsExampleState extends State<TableEventsExample> {
 
                                             ),
                                           ),
-                                          buildTextFormField(_customerName, 'Event Customer Name'),
-                                          buildTextFormField(_customerNumber, 'Customer Number'),
                                           buildTextFormField(_customerAddress, 'Customer Address'),
-                                          buildTextFormField(prod, 'Product Name'),
+                                          buildTextFormField(prod, 'Description'),
 
                                         ],
                                       ),
@@ -378,14 +491,22 @@ class _TableEventsExampleState extends State<TableEventsExample> {
                                         if (_formKey.currentState.validate()) {
                                           User user = Get.find<AuthService>().user.value;
                                          var response =  await http.get(Uri.parse(
-                                              'http://artiz.consciser.in/mrzulfapi/edit_calender.php?id=${_selectedEvents[index].id}&pro_id=${user.id}&event_req=${_customerName.text}&event_name=${_eventController.text}&time=${initialValue}&date=${DateFormat('yyyy/MM/dd').format(_selectedDay)}&event_add=${_customerAddress.text}&event_contact=${_customerNumber.text}&prod_name=${prod.text}'));
+                                              'http://artiz.consciser.in/mrzulfapi/edit_calender.php?id=${_selectedEvents[index].id}&pro_id=${user.id}&event_req=${_customerName.text}&event_name=${_eventController.text}&time=${initialValue}&date=${DateFormat('yyyy/MM/dd').format(_selectedDay)}&event_add=${_customerAddress.text}&event_contact=${_customerNumber.text}&prod_name=${prod.text}&status=$selectedStatus'));
 
                                          print('resppnseEdit = ${response.body}');
 
                                           Navigator.pop(context);
 
-                                          _eventController.clear();
-                                          setState(() {});
+                                          setState(() {
+                                            _formKey.currentState.reset();
+                                            _eventController.clear();
+                                            _customerName.clear();
+
+                                            _customerAddress.clear();
+                                            _customerNumber.clear();
+                                            prod.clear();
+                                            initialValue = 'Select Date';
+                                          });
                                         } else {
                                         }
 
