@@ -141,6 +141,7 @@ class EProviderFormController extends GetxController {
         eProvider.value.id = user.id;
         eProvider.value.memId =    eProvider.value.memId == null ? 'a' :  eProvider.value.memId;
         eProvider.value.memName =    eProvider.value.memId == null ? 'a' :  eProvider.value.memName;
+        eProvider.value.availabilityRange =    5;
         final _eProvider = await _eProviderRepository.create(eProvider.value);
 
         await Get.offAllNamed(Routes.ROOT);
@@ -158,7 +159,13 @@ class EProviderFormController extends GetxController {
     if (eProviderForm.currentState.validate()) {
       try {
         eProviderForm.currentState.save();
+        User user = Get.find<AuthService>().user.value;
+        eProvider.value.id = user.id;
+        eProvider.value.memId =    eProvider.value.memId == null ? 'a' :  eProvider.value.memId;
+        eProvider.value.memName =    eProvider.value.memId == null ? 'a' :  eProvider.value.memName;
+        eProvider.value.availabilityRange =    5;
         final _eProvider = await _eProviderRepository.update(eProvider.value);
+        await Get.offAllNamed(Routes.ROOT);
         // await Get.toNamed(Routes.E_PROVIDER_AVAILABILITY_FORM, arguments: {'eProvider': _eProvider});
       } catch (e) {
         Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
