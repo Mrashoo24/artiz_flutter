@@ -50,9 +50,9 @@ class _YoutubeScreenState extends State<YoutubeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Youtube API'),
+        title: Text('Video Gallery'),
       ),
       body: FutureBuilder
         <List<YouTubeVideo>>(
@@ -87,7 +87,7 @@ var videoResult = snapshot.requireData;
           ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: videoResult.length,
+                  itemCount: videoResult.length > 25 ? 25 : videoResult.length,
                   itemBuilder: (context,index){
                     return listItem(videoResult[index]);
                   },

@@ -80,12 +80,17 @@ class AccountView extends GetView<AccountController> {
                         fit: BoxFit.cover,
                         imageUrl: _currentUser.value.avatar?.thumb ?? '',
                         placeholder: (context, url) => Image.asset(
-                          'assets/img/loading.gif',
+                          'assets/icon/photo.jpeg',
                           fit: BoxFit.cover,
                           width: double.infinity,
-                          height: 100,
+                          height: 80,
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/icon/photo.jpeg',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 80,
+                        ),
                       ),
                     ),
                   ),
@@ -165,13 +170,13 @@ class AccountView extends GetView<AccountController> {
               decoration: Ui.getBoxDecoration(),
               child: Column(
                 children: [
-                  AccountLinkWidget(
-                    icon: Icon(Icons.support_outlined, color: Get.theme.colorScheme.secondary),
-                    text: Text("Help & FAQ".tr),
-                    onTap: (e) {
-                      Get.toNamed(Routes.HELP);
-                    },
-                  ),
+                  // AccountLinkWidget(
+                  //   icon: Icon(Icons.support_outlined, color: Get.theme.colorScheme.secondary),
+                  //   text: Text("Help & FAQ".tr),
+                  //   onTap: (e) {
+                  //     Get.toNamed(Routes.HELP);
+                  //   },
+                  // ),
                   AccountLinkWidget(
                     icon: Icon(Icons.logout, color: Get.theme.colorScheme.secondary),
                     text: Text("Logout".tr),

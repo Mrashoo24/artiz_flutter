@@ -25,17 +25,17 @@ class SettingsView extends GetView<SettingsController> {
           ),
           elevation: 0,
           bottom: TabBarWidget(
-            initialSelectedId: 0,
+            initialSelectedId: 1,
             tag: 'settings',
             tabs: [
-              ChipWidget(
-                tag: 'settings',
-                text: "Languages".tr,
-                id: 0,
-                onSelected: (id) {
-                  controller.changePage(id);
-                },
-              ),
+              // ChipWidget(
+              //   tag: 'settings',
+              //   text: "Languages".tr,
+              //   id: 0,
+              //   onSelected: (id) {
+              //     controller.changePage(id);
+              //   },
+              // ),
               ChipWidget(
                 tag: 'settings',
                 text: "Profile".tr,
@@ -72,7 +72,7 @@ class SettingsView extends GetView<SettingsController> {
         },
         child: Navigator(
           key: _navigatorKey,
-          initialRoute: Routes.SETTINGS_LANGUAGE,
+          initialRoute: Routes.PROFILE,
           onGenerateRoute: controller.onGenerateRoute,
         ),
       ),

@@ -84,11 +84,11 @@ class EProviderFormView extends GetView<EProviderFormController> {
                     onPressed: controller.eProvider.value.addresses.isEmpty
                         ? null
                         : () {
-                            // if (controller.isCreateForm()) {
+                            if (controller.isCreateForm()) {
                               controller.createEProviderForm();
-                            // } else {
-                            //   controller.updateEProviderForm();
-                            // }
+                            } else {
+                              controller.updateEProviderForm();
+                            }
                           },
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -188,26 +188,26 @@ class EProviderFormView extends GetView<EProviderFormController> {
                     return controller.eProvider.value.mobileNumber = phone.completeNumber;
                   },
                 ),
-                TextFieldWidget(
-                  onSaved: (input) => controller.eProvider.value.availabilityRange = double.tryParse(input) ?? 0,
-                  validator: (input) => (double.tryParse(input) ?? 0) <= 0 ? "Should be more than 0".tr : null,
-                  initialValue: controller.eProvider.value.availabilityRange?.toString() ?? null,
-                  keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-                  hintText: "5".tr,
-                  labelText: "Availability Range".tr,
-                  suffix: Text(Get.find<SettingsService>().setting.value.distanceUnit.tr),
-                ),
+                // TextFieldWidget(
+                //   onSaved: (input) => controller.eProvider.value.availabilityRange = double.tryParse(input) ?? 0,
+                //   validator: (input) => (double.tryParse(input) ?? 0) <= 0 ? "Should be more than 0".tr : null,
+                //   initialValue: controller.eProvider.value.availabilityRange?.toString() ?? null,
+                //   keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
+                //   hintText: "5".tr,
+                //   labelText: "Availability Range".tr,
+                //   suffix: Text(Get.find<SettingsService>().setting.value.distanceUnit.tr),
+                // ),
                 TextFieldWidget(
                   onSaved: (input) => controller.eProvider.value.memName = input,
-                  validator: (input) => input.length < 3 ? "Should be more than 3 letters".tr : null,
+                  validator: (input) =>  null,
                   keyboardType: TextInputType.multiline,
-                  initialValue: controller.eProvider.value.memId,
+                  initialValue: controller.eProvider.value.memName,
                   hintText: "Association Name if any".tr,
                   labelText: "Association Name".tr,
                 ),
                 TextFieldWidget(
                   onSaved: (input) => controller.eProvider.value.memId = input,
-                  validator: (input) => input.length < 3 ? "Should be more than 3 letters".tr : null,
+                  validator: (input) =>  null,
                   keyboardType: TextInputType.multiline,
                   initialValue: controller.eProvider.value.memId,
                   hintText: "Association Id if any".tr,

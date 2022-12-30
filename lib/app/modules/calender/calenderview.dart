@@ -269,7 +269,7 @@ class _TableEventsExampleState extends State<TableEventsExample> {
         icon: Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: Text('TableCalendar - Events'),
+        title: Text('Add Diary'),
       ),
       body: FutureBuilder<List<Event>>(
         future: _getEventsForDay(_selectedDay),

@@ -1617,6 +1617,9 @@ class LaravelApiClient extends GetxService with ApiClient {
   }
 
   Future<User> createEProvider(EProvider _eProvider) async {
+
+
+
     var _queryParameters = {
       'api_token': authService.apiToken,
     };
@@ -1638,6 +1641,7 @@ class LaravelApiClient extends GetxService with ApiClient {
     Uri _uri = getApiBaseUri("e_providers/${_eProvider.id}").replace(queryParameters: _queryParameters);
 
     var response = await _httpClient.putUri(_uri, data: _eProvider.toJson(), options: _optionsNetwork);
+    print('responsevendorEdit  = ${response.data['data']}');
     if (response.data['success'] == true) {
       return User.fromJson(response.data['data']);
     } else {

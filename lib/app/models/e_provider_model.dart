@@ -30,7 +30,7 @@ class EProvider extends Model {
   List subcategoryGet;
 
   List<AvailabilityHour> availabilityHours = [AvailabilityHour('1', '2', '2', '2', '2')];
-  double availabilityRange;
+  double availabilityRange =5;
   bool available;
   bool featured;
   List<Address> addresses;
@@ -123,6 +123,8 @@ class EProvider extends Model {
 
 
   Map<String, dynamic> toJsonUpload() {
+    print((this.memId == '').toString() + 'checkMemid');
+
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (id != null) data['id'] = this.id;
     if (name != null) data['name'] = this.name;
@@ -153,8 +155,8 @@ class EProvider extends Model {
     }
     data['e_provider_type_id'] = '3';
     data['taxes'] = ['3'];
-    data['mem_assoc'] = this.memName;
-    data['mem_id']= this.memId;
+    data['mem_assoc'] = this.memName == '' ?'a' : this.memName;
+    data['mem_id']= this.memId == '' ?'a' : this.memId;
 
     return data;
   }

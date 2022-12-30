@@ -44,7 +44,7 @@ class ImageFieldController extends GetxController {
         uploading.value = false;
       } catch (e) {
         uploading.value = false;
-        Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
+        // Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
       }
     } else {
       uploading.value = false;

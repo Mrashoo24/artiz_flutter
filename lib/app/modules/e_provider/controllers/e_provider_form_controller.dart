@@ -139,6 +139,8 @@ class EProviderFormController extends GetxController {
         User user = Get.find<AuthService>().user.value;
 
         eProvider.value.id = user.id;
+        eProvider.value.memId =    eProvider.value.memId == null ? 'a' :  eProvider.value.memId;
+        eProvider.value.memName =    eProvider.value.memId == null ? 'a' :  eProvider.value.memName;
         final _eProvider = await _eProviderRepository.create(eProvider.value);
 
         await Get.offAllNamed(Routes.ROOT);

@@ -119,11 +119,11 @@ flutter:
 
 flutter_native_splash:
 
-    image: assets/icon/artiz.png
-    color: "#f4f4f4"
+    image: assets/icon/icon.png
+    color: "#ffffff"
     android_12:
-      image: assets/icon/artiz.png
-      color: "#f4f4f4"
+#      image: assets/icon/icon.png
+      color: "#ffffff"
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

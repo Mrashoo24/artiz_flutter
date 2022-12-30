@@ -15,6 +15,7 @@
             android:label="Customer Services"
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:usesCleartextTraffic="true">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
