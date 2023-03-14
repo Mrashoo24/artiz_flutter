@@ -10,6 +10,7 @@ import '../../../models/address_model.dart';
 import '../../../routes/app_routes.dart';
 import '../../global_widgets/confirm_dialog.dart';
 import '../controllers/e_provider_addresses_form_controller.dart';
+import '../controllers/e_provider_form_controller.dart';
 
 class EProviderAddressesFormView extends GetView<EProviderAddressesFormController> {
   @override
@@ -59,7 +60,9 @@ class EProviderAddressesFormView extends GetView<EProviderAddressesFormControlle
                     onPressed: controller.eProvider.value.addresses.isEmpty
                         ? null
                         : () async {
-                            await Get.toNamed(Routes.E_PROVIDER_FORM, arguments: {'eProvider': controller.eProvider.value});
+                      Get.put<EProviderFormController>(EProviderFormController()).eProvider.value =  controller.eProvider.value;
+
+                      await Get.toNamed(Routes.E_PROVIDER_FORM, arguments: {'eProvider': controller.eProvider.value});
                           },
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -96,13 +99,13 @@ class EProviderAddressesFormView extends GetView<EProviderAddressesFormControlle
                   color: Get.theme.focusColor,
                   index: Text("2", style: TextStyle(color: Get.theme.primaryColor)),
                 ),
-                StepWidget(
-                  title: Text(
-                    "Availability".tr,
-                  ),
-                  color: Get.theme.focusColor,
-                  index: Text("3", style: TextStyle(color: Get.theme.primaryColor)),
-                ),
+                // StepWidget(
+                //   title: Text(
+                //     "Availability".tr,
+                //   ),
+                //   color: Get.theme.focusColor,
+                //   index: Text("3", style: TextStyle(color: Get.theme.primaryColor)),
+                // ),
               ],
             ),
             Text("Addresses details".tr, style: Get.textTheme.headline5).paddingOnly(top: 25, bottom: 0, right: 22, left: 22),

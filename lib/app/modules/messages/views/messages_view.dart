@@ -13,7 +13,7 @@ class MessagesView extends GetView<MessagesController> {
       () {
         if (controller.messages.isNotEmpty) {
           var _messages = controller.messages;
-          print('messagesonchat = ${controller.message}');
+          print('messagesonchat = ${_messages.length}');
           return ListView.separated(
               physics: AlwaysScrollableScrollPhysics(),
               controller: controller.scrollController,
@@ -24,26 +24,14 @@ class MessagesView extends GetView<MessagesController> {
               shrinkWrap: true,
               primary: false,
               itemBuilder: (context, index) {
-                if (index == controller.messages.length - 1) {
-                  return Obx(() {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: new Center(
-                        child: new Opacity(
-                          opacity: controller.isLoading.value ? 1 : 0,
-                          child: new CircularProgressIndicator(),
-                        ),
-                      ),
-                    );
-                  });
-                } else {
+
                   return MessageItemWidget(
                     message: controller.messages.elementAt(index),
                     onDismissed: (conversation) async {
                       await controller.deleteMessage(controller.messages.elementAt(index));
                     },
                   );
-                }
+
               });
         } else {
           return CircularLoadingWidget(

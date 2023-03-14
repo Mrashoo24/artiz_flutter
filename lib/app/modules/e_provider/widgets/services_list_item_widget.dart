@@ -144,13 +144,9 @@ class ServicesListItemWidget extends StatelessWidget {
                           if (_service.getOldPrice > 0)
                             Ui.getPrice(
                               _service.getOldPrice,
-                              style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.focusColor, decoration: TextDecoration.lineThrough)),
-                              unit: _service.getUnit,
                             ),
                           Ui.getPrice(
                             _service.getPrice,
-                            style: Get.textTheme.headline6,
-                            unit: _service.getUnit,
                           ),
                         ],
                       ),

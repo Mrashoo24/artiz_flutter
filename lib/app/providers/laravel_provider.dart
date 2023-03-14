@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
@@ -408,14 +409,16 @@ class LaravelApiClient extends GetxService with ApiClient {
 
   Future<List<Review>> getEProviderReviews(String eProviderId) async {
     var _queryParameters = {'with': 'eProviderReviews;eProviderReviews.user', 'only': 'eProviderReviews.id;eProviderReviews.review;eProviderReviews.rate;eProviderReviews.user;'};
-    Uri _uri = getApiBaseUri("e_providers/$eProviderId").replace(queryParameters: _queryParameters);
+    Uri _uri = Uri.parse("https://artiz.consciser.in/mrzulfapi/show_reviews.php?e_provider_id=$eProviderId");
     Get.log(_uri.toString());
-    var response = await _httpClient.getUri(_uri, options: _optionsCache);
-    if (response.data['success'] == true) {
-      return response.data['data']['e_provider_reviews'].map<Review>((obj) => Review.fromJson(obj)).toList();
-    } else {
-      throw new Exception(response.data['message']);
-    }
+    dio.Response response = await _httpClient.getUri(_uri, options: _optionsCache);
+    return jsonDecode(response.data).map<Review>((obj) => Review.fromJson(obj)).toList();
+
+    // if (response.data['success'] == true) {
+    //   return response.data['data']['e_provider_reviews'].map<Review>((obj) => Review.fromJson(obj)).toList();
+    // } else {
+    //   throw new Exception(response.data['message']);
+    // }
   }
 
   Future<List<Gallery>> getEProviderGalleries(String eProviderId) async {
@@ -575,6 +578,7 @@ class LaravelApiClient extends GetxService with ApiClient {
 
     var response = await _httpClient.getUri(_uri, options: _optionsNetwork);
     if (response.data['success'] == true) {
+      log('servicelistcheck = ' + response.data['data'].toString());
       return response.data['data'].map<EService>((obj) => EService.fromJson(obj)).toList();
     } else {
       throw new Exception(response.data['message']);

@@ -38,6 +38,7 @@ class ChatRepository {
   }
 
   Stream<QuerySnapshot> getUserMessages(String userId, {perPage = 10}) {
+    print('visbleuserid = $userId');
     return FirebaseFirestore.instance.collection("messages").where('visible_to_users', arrayContains: userId).orderBy('time', descending: true).limit(perPage).snapshots();
   }
 

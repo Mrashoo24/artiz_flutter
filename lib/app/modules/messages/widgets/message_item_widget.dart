@@ -17,6 +17,10 @@ class MessageItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthService _authService = Get.find<AuthService>();
+
+
+    var currentUser = this.message.users.firstWhere((element) => element.id != _authService.user.value.id,orElse:()=> this.message.users.first);
+
     return InkWell(
       onTap: () {
         Get.toNamed(Routes.CHAT, arguments: this.message);
@@ -99,7 +103,7 @@ class MessageItemWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            this.message.name,
+                            currentUser.name,
                             overflow: TextOverflow.fade,
                             softWrap: false,
                             style: Get.textTheme.bodyText1

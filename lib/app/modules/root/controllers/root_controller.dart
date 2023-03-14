@@ -45,7 +45,9 @@ class RootController extends GetxController {
   }
 
   List<Widget> pages = [
-    Home2View(key),
+    Home2View(
+        key
+    ),
     TableEventsExample(),
     // BookingsView(),
     ServicesListWidget(),
@@ -53,7 +55,7 @@ class RootController extends GetxController {
 
     NewsScreen(),
     MessagesView(),
-    AccountView(),
+    // AccountView(),
   ];
 
   Widget get currentPage => pages[currentIndex.value];

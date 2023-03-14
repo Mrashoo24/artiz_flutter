@@ -122,13 +122,21 @@ class EProviderController extends GetxController {
   }
 
   void startChat() {
-    List<User> _employees = eProvider.value.employees.map((e) {
-      e.avatar = eProvider.value.images[0];
-      return e;
-    }).toList();
+    List<User> _employees = [User(name:eProvider.value.name,email: eProvider.value.memName,
+        apiToken:  Get.find<AuthService>().user.value.apiToken,deviceToken:   Get.find<AuthService>().user.value.apiToken,
+    phoneNumber: eProvider.value.phoneNumber,verificationId: eProvider.value.phoneNumber,verifiedPhone: true,
+      address: eProvider.value.addresses[0].address,bio: eProvider.value.description,avatar: eProvider.value.images[0]
+
+    )];
+
+    _employees[0].id = eProvider.value.userid;
+    // eProvider.value.employees.map((e) {
+    //   e.avatar = eProvider.value.images[0];
+    //   return e;
+    // }).toList();
 
 
-    Message _message = new Message([Get.find<AuthService>().user.value], name: eProvider.value.name);
+    Message _message = new Message(_employees, name: eProvider.value.name);
     Get.toNamed(Routes.CHAT, arguments: _message);
   }
 }

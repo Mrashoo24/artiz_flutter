@@ -13,9 +13,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In Android, build-name is used as versionName while build-number used as versionCode.
 # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-# Read more about iOS versioning at
+# Read more about iOS fversioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.2.2+31
+version: 2.2.3+32
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -119,7 +119,7 @@ flutter:
 
 flutter_native_splash:
 
-    image: assets/icon/icon.png
+    image: assets/icon/Icon.png
     color: "#ffffff"
     android_12:
 #      image: assets/icon/icon.png

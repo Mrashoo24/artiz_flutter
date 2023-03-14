@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:cached_network_image/cached_network_image.dart';

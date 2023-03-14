@@ -48,10 +48,10 @@ class MessagesController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    chatTextController.dispose();
-  }
+  // @override
+  // void onClose() {
+  //   chatTextController.dispose();
+  // }
 
   Future createMessage(Message _message) async {
     _message.users.insert(0, _authService.user.value);
@@ -83,10 +83,15 @@ class MessagesController extends GetxController {
     Stream<QuerySnapshot> _userMessages;
     if (lastDocument.value == null) {
       _userMessages = _chatRepository.getUserMessages(_authService.user.value.id);
+
     } else {
       _userMessages = _chatRepository.getUserMessagesStartAt(_authService.user.value.id, lastDocument.value);
     }
+
+
+
     _userMessages.listen((QuerySnapshot query) {
+      print('userMessageLentgh = ${query.docs.length}');
       if (query.docs.isNotEmpty) {
 
         query.docs.forEach((element) {
@@ -96,7 +101,7 @@ class MessagesController extends GetxController {
         });
         lastDocument.value = query.docs.last;
       } else {
-        print('messagequery =  ${_authService.user.value.id}');
+        print('messagequeryempty =  ${_authService.user.value.id}');
         isDone.value = true;
       }
       isLoading.value = false;

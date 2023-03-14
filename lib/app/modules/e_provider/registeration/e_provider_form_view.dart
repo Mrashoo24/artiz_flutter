@@ -125,13 +125,13 @@ class EProviderFormView extends GetView<EProviderFormController> {
                       ),
                       index: Text("2", style: TextStyle(color: Get.theme.primaryColor)),
                     ),
-                    StepWidget(
-                      title: Text(
-                        "Availability".tr,
-                      ),
-                      color: Get.theme.focusColor,
-                      index: Text("3", style: TextStyle(color: Get.theme.primaryColor)),
-                    ),
+                    // StepWidget(
+                    //   title: Text(
+                    //     "Availability".tr,
+                    //   ),
+                    //   color: Get.theme.focusColor,
+                    //   index: Text("3", style: TextStyle(color: Get.theme.primaryColor)),
+                    // ),
                   ],
                 ),
                 Text("Provider details".tr, style: Get.textTheme.headline5).paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
@@ -176,18 +176,19 @@ class EProviderFormView extends GetView<EProviderFormController> {
                   initialCountryCode: Helper.getPhoneNumber(controller.eProvider.value.phoneNumber)?.countryISOCode,
                   initialValue: Helper.getPhoneNumber(controller.eProvider.value.phoneNumber)?.number,
                   onSaved: (phone) {
+                    controller.eProvider.value.mobileNumber = phone.completeNumber;
                     return controller.eProvider.value.phoneNumber = phone.completeNumber;
                   },
                 ),
-                PhoneFieldWidget(
-                  labelText: "Mobile Number".tr,
-                  hintText: "223 665 7896".tr,
-                  initialCountryCode: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber)?.countryISOCode,
-                  initialValue: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber)?.number,
-                  onSaved: (phone) {
-                    return controller.eProvider.value.mobileNumber = phone.completeNumber;
-                  },
-                ),
+                // PhoneFieldWidget(
+                //   labelText: "Mobile Number".tr,
+                //   hintText: "223 665 7896".tr,
+                //   initialCountryCode: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber)?.countryISOCode,
+                //   initialValue: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber)?.number,
+                //   onSaved: (phone) {
+                //     return controller.eProvider.value.mobileNumber = phone.completeNumber;
+                //   },
+                // ),
                 // TextFieldWidget(
                 //   onSaved: (input) => controller.eProvider.value.availabilityRange = double.tryParse(input) ?? 0,
                 //   validator: (input) => (double.tryParse(input) ?? 0) <= 0 ? "Should be more than 0".tr : null,
@@ -418,7 +419,7 @@ class EProviderFormView extends GetView<EProviderFormController> {
                             return Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                "Select Taxes".tr,
+                                "Select Sub-Categories".tr,
                                 style: Get.textTheme.caption,
                               ),
                             );

@@ -57,25 +57,25 @@ class RatingView extends GetView<RatingController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                      child: CachedNetworkImage(
-                        height: 160,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        imageUrl: controller.booking.value.eService.firstImageUrl,
-                        placeholder: (context, url) => Image.asset(
-                          'assets/img/loading.gif',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: 160,
-                        ),
-                        errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                      ),
-                    ),
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                    //   child: CachedNetworkImage(
+                    //     height: 160,
+                    //     width: double.infinity,
+                    //     fit: BoxFit.cover,
+                    //     imageUrl: controller.booking.value.images.first,
+                    //     placeholder: (context, url) => Image.asset(
+                    //       'assets/img/loading.gif',
+                    //       fit: BoxFit.cover,
+                    //       width: double.infinity,
+                    //       height: 160,
+                    //     ),
+                    //     errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                    //   ),
+                    // ),
                     SizedBox(height: 20),
                     Text(
-                      controller.booking.value.eService.name,
+                      controller.booking.value.name,
                       style: Get.textTheme.headline6,
                       textAlign: TextAlign.center,
                     ),
@@ -92,10 +92,10 @@ class RatingView extends GetView<RatingController> {
                           return InkWell(
                             onTap: () {
                               controller.review.update((val) {
-                                val.rate = (index + 1).toDouble();
+                                val.rate = (index + 1).toDouble().toString();
                               });
                             },
-                            child: index < controller.review.value.rate
+                            child: index < double.parse(controller.review.value.rate)
                                 ? Icon(Icons.star, size: 40, color: Color(0xFFFFB24D))
                                 : Icon(Icons.star_border, size: 40, color: Color(0xFFFFB24D)),
                           );

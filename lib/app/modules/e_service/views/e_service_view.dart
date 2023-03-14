@@ -108,7 +108,7 @@ class EServiceView extends GetView<EServiceController> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SizedBox(height: 10),
-                        buildCategories(_eService),
+                        // buildCategories(_eService),
                         EServiceTilWidget(
                           title: Text("Description".tr, style: Get.textTheme.subtitle2),
                           content: Obx(() {
@@ -637,21 +637,21 @@ class EServiceView extends GetView<EServiceController> {
                 ),
                 elevation: 0,
               ),
-              MaterialButton(
-                onPressed: () {
-                  launchUrlString("tel:${controller.eService.value.ph_no ?? '1'}");
-                },
-                height: 44,
-                minWidth: 44,
-                padding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                color: Get.theme.colorScheme.secondary.withOpacity(0.2),
-                child: Icon(
-                  Icons.call_outlined,
-                  color: Get.theme.colorScheme.secondary,
-                ),
-                elevation: 0,
-              ),
+              // MaterialButton(
+              //   onPressed: () {
+              //     launchUrlString("tel:${controller.eService.value.ph_no ?? '1'}");
+              //   },
+              //   height: 44,
+              //   minWidth: 44,
+              //   padding: EdgeInsets.zero,
+              //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              //   color: Get.theme.colorScheme.secondary.withOpacity(0.2),
+              //   child: Icon(
+              //     Icons.call_outlined,
+              //     color: Get.theme.colorScheme.secondary,
+              //   ),
+              //   elevation: 0,
+              // ),
               MaterialButton(
                 onPressed: () {
                   controller.startChat();

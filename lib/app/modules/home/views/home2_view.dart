@@ -7,6 +7,7 @@ import '../../../models/e_provider_model.dart';
 import '../../../models/slide_model.dart';
 import '../../../providers/laravel_provider.dart';
 import '../../../routes/app_routes.dart';
+import '../../../services/auth_service.dart';
 import '../../../services/settings_service.dart';
 import '../../e_provider/views/e_provider_list.dart';
 import '../../e_provider/views/featuredEProviders.dart';
@@ -18,6 +19,7 @@ import '../widgets/categories_carousel_widget.dart';
 import '../widgets/featured_categories_widget.dart';
 import '../widgets/recommended_carousel_widget.dart';
 import '../widgets/slide_item_widget.dart';
+import 'package:http/http.dart' as http;
 
 class Home2View extends GetView<HomeController> {
   final GlobalKey<ScaffoldState> scafkey ;
@@ -33,6 +35,7 @@ class Home2View extends GetView<HomeController> {
           if(!snapshot.hasData){
             return Center(child: CircularProgressIndicator(),);
           }
+
 
           return RefreshIndicator(
               onRefresh: () async {

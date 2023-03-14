@@ -312,14 +312,14 @@ class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
       text: TextSpan(
         text: '$title : ',
         style: const TextStyle(
-          color: Colors.blueAccent,
+          color: Colors.black,
           fontWeight: FontWeight.bold,
         ),
         children: [
           TextSpan(
             text: value,
             style: const TextStyle(
-              color: Colors.blueAccent,
+              color: Colors.black87,
               fontWeight: FontWeight.w300,
             ),
           ),

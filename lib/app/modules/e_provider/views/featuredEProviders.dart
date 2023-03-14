@@ -96,6 +96,10 @@ final  List<EProvider> listofeproviders;
                             _service.name ?? '',
                             maxLines: 2,
                             style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.hintColor)),
+                          ), Text(
+                            _service.description ?? '',
+                            maxLines: 2,
+                            style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.shadowColor)),
                           ),
                           Wrap(
                             children: Ui.getStarsList(_service.rate ?? 0),

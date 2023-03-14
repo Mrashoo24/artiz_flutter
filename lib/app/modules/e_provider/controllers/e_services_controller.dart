@@ -12,6 +12,8 @@ class EServicesController extends GetxController {
   // final eProvider = new EProvider().obs;
   final selected = Rx<CategoryFilter>(CategoryFilter.ALL);
   final eServices = <EService>[].obs;
+  var eServicesSearch = <EService>[].obs;
+  var searchString = TextEditingController();
   final page = 0.obs;
   final isLoading = true.obs;
   final isDone = false.obs;
@@ -96,5 +98,12 @@ class EServicesController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+
+  searchEServices(){
+   eServicesSearch.value = eServices.where((element) => element.name.toUpperCase().contains(searchString.text.toUpperCase())).toList();
+
+   update();
   }
 }

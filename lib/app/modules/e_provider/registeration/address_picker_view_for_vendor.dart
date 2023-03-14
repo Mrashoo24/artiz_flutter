@@ -21,7 +21,7 @@ class AddressPickerViewVendor extends GetView<EProviderAddressesFormController> 
   @override
   Widget build(BuildContext context) {
     return PlacePicker(
-      apiKey: 'AIzaSyDu5lTkRvQ2kvbdo4wJyaX-vGRxeTtrkWo',
+      apiKey: 'AIzaSyAH3kq3FtHM9Odsx5tcESgvsm37nBuWi1M',
       initialPosition: _address?.getLatLng(),
       useCurrentLocation: true,
       selectInitialPosition: true,

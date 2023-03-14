@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
+import 'package:collection/collection.dart';
 import '../../../../common/map.dart';
 import '../../../../common/ui.dart';
 import '../../../models/e_provider_model.dart';
 import '../../../models/media_model.dart';
 import '../../../providers/laravel_provider.dart';
 import '../../../routes/app_routes.dart';
+import '../../global_widgets/block_button_widget.dart';
 import '../../global_widgets/circular_loading_widget.dart';
 import '../controllers/e_provider_controller.dart';
 import '../widgets/availability_hour_item_widget.dart';
@@ -27,12 +28,21 @@ class EProviderView extends GetView<EProviderController> {
 
       print('name and Cat = ${_eProvider.name} ${_eProvider.categoryGet}');
 
+
+
+
       if (!_eProvider.hasData) {
         return Scaffold(
           body: CircularLoadingWidget(height: Get.height),
         );
       } else {
-        return Scaffold(
+
+              print('gotRating = ${controller.reviews.toJson()}');
+
+        var rating = controller.reviews.length > 0?(controller.reviews.map((m) =>double.parse( m.rate)).reduce((a, b) => a + b) / controller.reviews.length).toString() : '0';
+
+
+              return Scaffold(
           body: RefreshIndicator(
               onRefresh: () async {
                 Get.find<LaravelApiClient>().forceRefresh();
@@ -55,7 +65,7 @@ class EProviderView extends GetView<EProviderController> {
                       icon: new Icon(Icons.arrow_back_ios, color: Get.theme.hintColor),
                       onPressed: () => {Get.back()},
                     ),
-                    bottom: buildEProviderTitleBarWidget(_eProvider),
+                    bottom: buildEProviderTitleBarWidget(_eProvider,rating),
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.parallax,
                       background: Obx(() {
@@ -101,12 +111,12 @@ class EProviderView extends GetView<EProviderController> {
                           title: Text("Reviews & Ratings".tr, style: Get.textTheme.subtitle2),
                           content: Column(
                             children: [
-                              Text(_eProvider.rate.toString(), style: Get.textTheme.headline1),
+                              Text(rating.toString(), style: Get.textTheme.headline1),
                               Wrap(
                                 children: Ui.getStarsList(_eProvider.rate, size: 32),
                               ),
                               Text(
-                                "Reviews (%s)".trArgs([_eProvider.totalReviews.toString()]),
+                                "Reviews (%s)".trArgs([controller.reviews.length.toString()]),
                                 style: Get.textTheme.caption,
                               ).paddingOnly(top: 10),
                               Divider(height: 35, thickness: 1.3),
@@ -133,6 +143,27 @@ class EProviderView extends GetView<EProviderController> {
                             // TODO view all reviews
                           ],
                         ),
+                        BlockButtonWidget(
+                            text: Stack(
+                              alignment: AlignmentDirectional.centerEnd,
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    "Leave a Review".tr,
+                                    textAlign: TextAlign.center,
+                                    style: Get.textTheme.headline6.merge(
+                                      TextStyle(color: Get.theme.primaryColor),
+                                    ),
+                                  ),
+                                ),
+                                Icon(Icons.star_outlined, color: Get.theme.primaryColor, size: 22)
+                              ],
+                            ),
+                            color: Get.theme.colorScheme.secondary,
+                            onPressed: () {
+                              Get.toNamed(Routes.RATING, arguments: _eProvider);
+                            }),
                       ],
                     ),
                   ),
@@ -345,7 +376,7 @@ class EProviderView extends GetView<EProviderController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Contact us".tr, style: Get.textTheme.subtitle2),
-                Text("If your have any question!".tr, style: Get.textTheme.caption),
+                Text("If you have any question!".tr, style: Get.textTheme.caption),
               ],
             ),
           ),
@@ -367,21 +398,21 @@ class EProviderView extends GetView<EProviderController> {
                 ),
                 elevation: 0,
               ),
-              MaterialButton(
-                onPressed: () {
-                  launchUrlString("tel:${controller.eProvider.value.phoneNumber}");
-                },
-                height: 44,
-                minWidth: 44,
-                padding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                color: Get.theme.colorScheme.secondary.withOpacity(0.2),
-                child: Icon(
-                  Icons.call_outlined,
-                  color: Get.theme.colorScheme.secondary,
-                ),
-                elevation: 0,
-              ),
+              // MaterialButton(
+              //   onPressed: () {
+              //     launchUrlString("tel:${controller.eProvider.value.phoneNumber}");
+              //   },
+              //   height: 44,
+              //   minWidth: 44,
+              //   padding: EdgeInsets.zero,
+              //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              //   color: Get.theme.colorScheme.secondary.withOpacity(0.2),
+              //   child: Icon(
+              //     Icons.call_outlined,
+              //     color: Get.theme.colorScheme.secondary,
+              //   ),
+              //   elevation: 0,
+              // ),
               MaterialButton(
                 onPressed: () {
                   controller.startChat();
@@ -530,7 +561,7 @@ class EProviderView extends GetView<EProviderController> {
     );
   }
 
-  EProviderTitleBarWidget buildEProviderTitleBarWidget(EProvider _eProvider) {
+  EProviderTitleBarWidget buildEProviderTitleBarWidget(EProvider _eProvider,rating) {
     return EProviderTitleBarWidget(
       title: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -569,11 +600,11 @@ class EProviderView extends GetView<EProviderController> {
               Expanded(
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.end,
-                  children: List.from(Ui.getStarsList(_eProvider.rate ?? 0))
+                  children: List.from(Ui.getStarsList(double.parse(rating) ?? 0))
                     ..addAll([
                       SizedBox(width: 5),
                       Text(
-                        "Reviews (%s)".trArgs([_eProvider.totalReviews.toString()]),
+                        "Reviews (%s)".trArgs([controller.reviews.length.toString()]),
                         style: Get.textTheme.caption,
                       ),
                     ]),

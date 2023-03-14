@@ -22,42 +22,42 @@ class ReviewItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                child: CachedNetworkImage(
-                  height: 65,
-                  width: 65,
-                  fit: BoxFit.cover,
-                  imageUrl: review.user.avatar.thumb,
-                  placeholder: (context, url) => Image.asset(
-                    'assets/img/loading.gif',
-                    fit: BoxFit.cover,
-                    height: 65,
-                    width: 65,
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                ),
-              ),
+              // ClipRRect(
+              //   borderRadius: BorderRadius.all(Radius.circular(10)),
+              //   child: CachedNetworkImage(
+              //     height: 65,
+              //     width: 65,
+              //     fit: BoxFit.cover,
+              //     imageUrl: review.user.avatar.thumb,
+              //     placeholder: (context, url) => Image.asset(
+              //       'assets/img/loading.gif',
+              //       fit: BoxFit.cover,
+              //       height: 65,
+              //       width: 65,
+              //     ),
+              //     errorWidget: (context, url, error) => Icon(Icons.error_outline),
+              //   ),
+              // ),
               SizedBox(width: 15),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      review.user.name,
-                      overflow: TextOverflow.fade,
-                      softWrap: false,
-                      maxLines: 2,
-                      style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.hintColor)),
-                    ),
-                    Text(
-                      review.user.bio,
-                      overflow: TextOverflow.ellipsis,
-                      style: Get.textTheme.caption,
-                    ),
-                  ],
-                ),
-              ),
+              // Expanded(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: <Widget>[
+              //       Text(
+              //         review.,
+              //         overflow: TextOverflow.fade,
+              //         softWrap: false,
+              //         maxLines: 2,
+              //         style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.hintColor)),
+              //       ),
+              //       Text(
+              //         review.user.bio,
+              //         overflow: TextOverflow.ellipsis,
+              //         style: Get.textTheme.caption,
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 height: 32,
                 child: Chip(

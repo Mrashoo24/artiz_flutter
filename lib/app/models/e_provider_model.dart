@@ -33,7 +33,7 @@ class EProvider extends Model {
   double availabilityRange =5;
   bool available;
   bool featured;
-  List<Address> addresses;
+  List<Address> addresses = [];
   // List<Tax> taxes;
   List<Category> subCategory;
 
@@ -44,6 +44,7 @@ class EProvider extends Model {
   bool verified;
   int bookingsInProgress;
   String memId;  String memName;
+  String userid;
 
 
 
@@ -65,7 +66,7 @@ class EProvider extends Model {
       this.reviews,
       this.totalReviews,
       this.verified,
-      this.bookingsInProgress,this.memId,this.memName});
+      this.bookingsInProgress,this.memId,this.memName,this.userid});
 
   EProvider.fromJson(Map<String, dynamic> json) {
 
@@ -91,7 +92,7 @@ class EProvider extends Model {
     bookingsInProgress = intFromJson(json, 'bookings_in_progress');
     memId = stringFromJson(json, 'mem_id');
     memName = stringFromJson(json, 'mem_assoc');
-
+    userid = stringFromJson(json, 'user_id');
   }
 
   Map<String, dynamic> toJson() {
@@ -116,6 +117,7 @@ class EProvider extends Model {
     data['mem_id'] = this.memId;
     data['mem_assoc'] = this.memName;
     data['custom_fields'] = [{'sub_cat':this.subCategory}];
+    data['user_id'] = this.userid ;
 
     return data;
   }
@@ -157,6 +159,7 @@ class EProvider extends Model {
     data['taxes'] = ['3'];
     data['mem_assoc'] = this.memName == '' ?'a' : this.memName;
     data['mem_id']= this.memId == '' ?'a' : this.memId;
+    data['user_id'] = this.userid;
 
     return data;
   }

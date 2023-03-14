@@ -47,12 +47,14 @@ class EProviderFormController extends GetxController {
   @override
   void onReady() async {
     await refreshEProvider();
+
     super.onReady();
   }
 
   Future refreshEProvider({bool showMessage = false}) async {
     await getEProviderTypes();
     await getEmployees();
+    await getCategories();
 
     if (showMessage) {
       Get.showSnackbar(Ui.SuccessSnackBar(message: eProvider.value.name + " " + "page refreshed successfully".tr));
@@ -92,6 +94,8 @@ class EProviderFormController extends GetxController {
     }
   }
 
+
+
   Future getEProviders() async {
     try {
       eProviders.assignAll(await _eProviderRepository.getAll());
@@ -106,8 +110,8 @@ class EProviderFormController extends GetxController {
     }).toList();
   }
 
-  List<MultiSelectDialogItem<Category>> getMultiSelectTaxesItems() {
-    return taxes.map((element) {
+  List<MultiSelectDialogItem<Category>>   getMultiSelectTaxesItems() {
+    return categories.map((element) {
       return MultiSelectDialogItem(element, element.name);
     }).toList();
   }
@@ -139,6 +143,7 @@ class EProviderFormController extends GetxController {
         User user = Get.find<AuthService>().user.value;
 
         eProvider.value.id = user.id;
+        eProvider.value.userid = user.id;
         eProvider.value.memId =    eProvider.value.memId == null ? 'a' :  eProvider.value.memId;
         eProvider.value.memName =    eProvider.value.memId == null ? 'a' :  eProvider.value.memName;
         eProvider.value.availabilityRange =    5;
@@ -160,7 +165,8 @@ class EProviderFormController extends GetxController {
       try {
         eProviderForm.currentState.save();
         User user = Get.find<AuthService>().user.value;
-        eProvider.value.id = user.id;
+        // eProvider.value.id = user.id;
+        eProvider.value.userid = user.id;
         eProvider.value.memId =    eProvider.value.memId == null ? 'a' :  eProvider.value.memId;
         eProvider.value.memName =    eProvider.value.memId == null ? 'a' :  eProvider.value.memName;
         eProvider.value.availabilityRange =    5;

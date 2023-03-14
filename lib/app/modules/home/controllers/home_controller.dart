@@ -28,7 +28,7 @@ class HomeController extends GetxController {
   final currentSlide = 0.obs;
   final eServices = <EService>[].obs;
 
-  final List<EProvider> eProviderList = [EProvider()].obs;
+  List<EProvider> eProviderList = [EProvider()].obs;
   final categories = <Category>[].obs;
 
   final featured = <Category>[].obs;
@@ -122,8 +122,13 @@ class HomeController extends GetxController {
   }
 
   Future<List<EProvider>> getEProviderAll() async {
-    // eProviderList.clear()
-    eProviderList.assignAll(await _eProviderpository.getAll()) ;
+    print('previousList = ${eProviderList.length}');
+    eProviderList.clear();
+    print('currentList = ${eProviderList.length}');
+    eProviderList = await _eProviderpository.getAll();
+    // eProviderList.assignAll(await _eProviderpository.getAll()) ;
+    print('final List = ${eProviderList.length}');
+
     // try {
     //   eProviderList.assignAll(await _eProviderpository.getAll()) ;
     // } catch (e) {
@@ -193,9 +198,9 @@ class HomeController extends GetxController {
       //   _eServices =
       //   await _eServiceRepository.getPopular(categoryId, page: this.page.value);
       //   break;
-      // case CategoryFilter.RATING:
-      //   _eServices = await _eServiceRepository.getMostRated(categoryId, page: this.page.value);
-      //   break;
+        // case CategoryFilter.RATING:
+        //   _eServices = await _eServiceRepository.getMostRated(categoryId, page: this.page.value);
+        //   break;
       // case CategoryFilter.AVAILABILITY:
       //   _eServices = await _eServiceRepository.getAvailable(categoryId, page: this.page.value);
       //   break;
@@ -204,6 +209,7 @@ class HomeController extends GetxController {
       }
       if (_eServices.isNotEmpty) {
         this.eProviderList.addAll(_eServices);
+        update();
       } else {
         isDone.value = true;
       }

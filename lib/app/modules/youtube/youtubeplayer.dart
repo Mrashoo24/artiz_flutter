@@ -13,7 +13,7 @@ class YoutubeScreen extends StatefulWidget {
 class _YoutubeScreenState extends State<YoutubeScreen> {
   static String key = "AIzaSyDfem6OBe8mDWDt6aXo6jgyRIsvgns0nUo";
 
-  YoutubeAPI youtube = YoutubeAPI(key);
+  YoutubeAPI youtube = YoutubeAPI(key, maxResults: 25);
   List<YouTubeVideo> videoResult = [];
   Timer _debounce;
 
